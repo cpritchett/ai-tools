@@ -121,7 +121,7 @@ BACKUP_DIR=".agent-md-backups"
 mkdir -p "${BACKUP_DIR}"
 
 # Interactive menu if no specific tools were selected
-if [[ ${INTERACTIVE} == "true" ]]; then
+if [[ "${INTERACTIVE}" == "true" ]]; then
 	echo ""
 	echo "🤖 I can set up compatibility with several AI coding assistants."
 	echo "   Let me know which ones you'd like me to configure:"
