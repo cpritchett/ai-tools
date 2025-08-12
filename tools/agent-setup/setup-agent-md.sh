@@ -167,7 +167,7 @@ if [[ "${INTERACTIVE}" == "true" ]]; then
 	# Cline
 	echo "🔹 Cline (.clinerc)"
 	read -r -p "   Should I set this up? [y/N]: " cline_choice
-	[[ ${cline_choice,,} == "y" ]] && CLINE=true
+	[[ "${cline_choice,,}" == "y" ]] && CLINE=true
 
 	echo ""
 	echo "Perfect! Let me get to work on that for you..."
