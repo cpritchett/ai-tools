@@ -147,7 +147,7 @@ if [[ "${INTERACTIVE}" == "true" ]]; then
 	# Cursor
 	echo "🔹 Cursor (.cursorrules)"
 	read -r -p "   Should I set this up? [y/N]: " cursor_choice
-	[[ ${cursor_choice,,} == "y" ]] && CURSOR=true
+	[[ "${cursor_choice,,}" == "y" ]] && CURSOR=true
 
 	# Windsurf
 	echo "🔹 Windsurf (.windsurfrules)"
