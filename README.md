@@ -15,29 +15,34 @@ This repository provides tools to:
 ```
 ai-tools/
 ├── README.md              # This file
-├── scripts/               # Automation scripts
-│   ├── README.md          # Script-specific documentation
-│   └── setup-agent-md.sh  # AGENT.md specification implementation
+├── tools/                 # AI development tools
+│   ├── agent-setup/       # AGENT.md specification tools
+│   │   ├── README.md      # Documentation
+│   │   └── setup-agent-md.sh  # Setup script
+│   ├── workflow-automation/    # Workflow automation tools
+│   └── configuration-management/  # Configuration management tools
 ├── docs/                  # Documentation and guides
 └── examples/              # Example configurations and usage
 ```
 
-## 🛠️ Scripts
+## 🛠️ Tools
 
-### setup-agent-md.sh
+### Agent Setup Tools
+
+#### setup-agent-md.sh
 
 Implements the [AGENT.md specification](https://ampcode.com/AGENT.md) in any repository, creating a universal configuration file that all AI coding assistants can read.
 
 **Quick Start:**
 ```bash
 # Interactive setup
-./scripts/setup-agent-md.sh
+./tools/agent-setup/setup-agent-md.sh
 
 # Enable all AI tools
-./scripts/setup-agent-md.sh --all
+./tools/agent-setup/setup-agent-md.sh --all
 
 # Specific tools only
-./scripts/setup-agent-md.sh --claude --copilot --cursor
+./tools/agent-setup/setup-agent-md.sh --claude --copilot --cursor
 ```
 
 **Features:**
@@ -47,7 +52,7 @@ Implements the [AGENT.md specification](https://ampcode.com/AGENT.md) in any rep
 - Creates symbolic links for multi-tool compatibility
 - Follows official AGENT.md specification
 
-[**Full Documentation →**](scripts/README.md)
+[**Full Documentation →**](tools/agent-setup/README.md)
 
 ## 🚀 Getting Started
 
@@ -57,18 +62,18 @@ Implements the [AGENT.md specification](https://ampcode.com/AGENT.md) in any rep
    cd ai-tools
    ```
 
-2. **Make scripts executable:**
+2. **Make tools executable:**
    ```bash
-   chmod +x scripts/*.sh
+   chmod +x tools/**/*.sh
    ```
 
-3. **Run a script:**
+3. **Run a tool:**
    ```bash
    # Navigate to your target repository
    cd /path/to/your/repository
    
-   # Run the AGENT.md setup script
-   /path/to/ai-tools/scripts/setup-agent-md.sh --all
+   # Run the AGENT.md setup tool
+   /path/to/ai-tools/tools/agent-setup/setup-agent-md.sh --all
    ```
 
 ## 📖 Supported AI Tools
@@ -98,25 +103,35 @@ Our tools prioritize safety by backing up existing configurations before making 
 ### Developer Experience
 We focus on reducing friction and maintenance overhead while improving the consistency and quality of AI-assisted development.
 
-## 🔮 Future Scripts
+## 🔮 Future Tools
 
 This repository is designed to house additional AI development tools:
 
-- **AI workflow automation scripts**
+### Workflow Automation
+- **CI/CD integration tools**
+- **Automated code review helpers**
+- **Development pipeline optimizers**
+
+### Configuration Management
 - **Configuration validation tools**
-- **AI prompt management utilities**
 - **Cross-tool compatibility helpers**
-- **Development environment standardization**
+- **Environment standardization utilities**
+
+### Additional Categories
+- **AI prompt management utilities**
+- **Performance monitoring tools**
+- **Integration testing frameworks**
 
 ## 🤝 Contributing
 
 Contributions are welcome! Please:
 
 1. Follow the existing code structure and documentation style
-2. Add comprehensive documentation for new scripts
+2. Add comprehensive documentation for new tools
 3. Include usage examples and test cases
-4. Ensure scripts are safe and non-destructive
+4. Ensure tools are safe and non-destructive
 5. Follow conventional commit message format
+6. Place tools in appropriate subdirectories
 
 ## 📄 License
 
@@ -125,7 +140,7 @@ MIT License - Feel free to use these tools in your projects.
 ## 🆘 Support
 
 - **Issues**: Report bugs or request features via GitHub issues
-- **Documentation**: Check script-specific README files in respective directories
+- **Documentation**: Check tool-specific README files in respective directories
 - **Examples**: See the `examples/` directory for usage patterns
 
 ---
