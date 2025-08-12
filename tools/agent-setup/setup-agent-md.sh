@@ -137,7 +137,7 @@ if [[ "${INTERACTIVE}" == "true" ]]; then
 	# GitHub Copilot
 	echo "🔹 GitHub Copilot (.github/copilot-instructions.md)"
 	read -r -p "   Should I set this up? [Y/n]: " copilot_choice
-	[[ ${copilot_choice,,} != "n" ]] && COPILOT=true
+	[[ "${copilot_choice,,}" != "n" ]] && COPILOT=true
 
 	# Kiro AI
 	echo "🔹 Kiro AI (.kiro/steering/project.md)"
