@@ -162,7 +162,7 @@ if [[ "${INTERACTIVE}" == "true" ]]; then
 	# Roo
 	echo "🔹 Roo (.roorc)"
 	read -r -p "   Should I set this up? [y/N]: " roo_choice
-	[[ ${roo_choice,,} == "y" ]] && ROO=true
+	[[ "${roo_choice,,}" == "y" ]] && ROO=true
 
 	# Cline
 	echo "🔹 Cline (.clinerc)"
