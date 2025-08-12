@@ -142,7 +142,7 @@ if [[ "${INTERACTIVE}" == "true" ]]; then
 	# Kiro AI
 	echo "🔹 Kiro AI (.kiro/steering/project.md)"
 	read -r -p "   Should I set this up? [y/N]: " kiro_choice
-	[[ ${kiro_choice,,} == "y" ]] && KIRO=true
+	[[ "${kiro_choice,,}" == "y" ]] && KIRO=true
 
 	# Cursor
 	echo "🔹 Cursor (.cursorrules)"
