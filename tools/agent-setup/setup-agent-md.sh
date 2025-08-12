@@ -132,7 +132,7 @@ if [[ "${INTERACTIVE}" == "true" ]]; then
 	# Claude Code
 	echo "🔹 Claude Code (CLAUDE.md)"
 	read -r -p "   Should I set this up? [Y/n]: " claude_choice
-	[[ ${claude_choice,,} != "n" ]] && CLAUDE=true
+	[[ "${claude_choice,,}" != "n" ]] && CLAUDE=true
 
 	# GitHub Copilot
 	echo "🔹 GitHub Copilot (.github/copilot-instructions.md)"
