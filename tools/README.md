@@ -5,23 +5,29 @@ This directory contains organized tools for AI-powered development workflows.
 ## Directory Structure
 
 ### agent-setup/
+
 Tools for setting up and managing AI agent configurations following industry standards like AGENT.md.
 
 **Current Tools:**
+
 - `setup-agent-md.sh` - AGENT.md specification implementation with multi-tool support
 
 ### workflow-automation/
+
 Tools for automating development workflows and integrating AI assistants into CI/CD pipelines.
 
 **Planned Tools:**
+
 - CI/CD integration helpers
 - Automated code review tools
 - Development pipeline optimizers
 
 ### configuration-management/
+
 Tools for managing, validating, and standardizing AI tool configurations across projects.
 
 **Planned Tools:**
+
 - Configuration validation utilities
 - Cross-tool compatibility helpers
 - Environment standardization tools
