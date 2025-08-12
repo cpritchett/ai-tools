@@ -157,7 +157,7 @@ if [[ "${INTERACTIVE}" == "true" ]]; then
 	# Continue
 	echo "🔹 Continue (.continuerc.json)"
 	read -r -p "   Should I set this up? [y/N]: " continue_choice
-	[[ ${continue_choice,,} == "y" ]] && CONTINUE=true
+	[[ "${continue_choice,,}" == "y" ]] && CONTINUE=true
 
 	# Roo
 	echo "🔹 Roo (.roorc)"
