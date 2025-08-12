@@ -16,8 +16,6 @@ set -euo pipefail
 #   --all            Enable all AI tool compatibility
 #   --interactive    Show interactive menu (default if no flags given)
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
 # Parse command line arguments
 CLAUDE=false
 COPILOT=false
@@ -31,156 +29,156 @@ INTERACTIVE=true
 TARGET_DIR=""
 
 while [[ $# -gt 0 ]]; do
-    case $1 in
-        --claude)
-            CLAUDE=true
-            INTERACTIVE=false
-            shift
-            ;;
-        --copilot)
-            COPILOT=true
-            INTERACTIVE=false
-            shift
-            ;;
-        --kiro)
-            KIRO=true
-            INTERACTIVE=false
-            shift
-            ;;
-        --cursor)
-            CURSOR=true
-            INTERACTIVE=false
-            shift
-            ;;
-        --windsurf)
-            WINDSURF=true
-            INTERACTIVE=false
-            shift
-            ;;
-        --continue)
-            CONTINUE=true
-            INTERACTIVE=false
-            shift
-            ;;
-        --roo)
-            ROO=true
-            INTERACTIVE=false
-            shift
-            ;;
-        --cline)
-            CLINE=true
-            INTERACTIVE=false
-            shift
-            ;;
-        --all)
-            CLAUDE=true
-            COPILOT=true
-            KIRO=true
-            CURSOR=true
-            WINDSURF=true
-            CONTINUE=true
-            ROO=true
-            CLINE=true
-            INTERACTIVE=false
-            shift
-            ;;
-        --interactive)
-            INTERACTIVE=true
-            shift
-            ;;
-        -*)
-            echo "Unknown option $1"
-            exit 1
-            ;;
-        *)
-            TARGET_DIR="$1"
-            shift
-            ;;
-    esac
+	case $1 in
+	--claude)
+		CLAUDE=true
+		INTERACTIVE=false
+		shift
+		;;
+	--copilot)
+		COPILOT=true
+		INTERACTIVE=false
+		shift
+		;;
+	--kiro)
+		KIRO=true
+		INTERACTIVE=false
+		shift
+		;;
+	--cursor)
+		CURSOR=true
+		INTERACTIVE=false
+		shift
+		;;
+	--windsurf)
+		WINDSURF=true
+		INTERACTIVE=false
+		shift
+		;;
+	--continue)
+		CONTINUE=true
+		INTERACTIVE=false
+		shift
+		;;
+	--roo)
+		ROO=true
+		INTERACTIVE=false
+		shift
+		;;
+	--cline)
+		CLINE=true
+		INTERACTIVE=false
+		shift
+		;;
+	--all)
+		CLAUDE=true
+		COPILOT=true
+		KIRO=true
+		CURSOR=true
+		WINDSURF=true
+		CONTINUE=true
+		ROO=true
+		CLINE=true
+		INTERACTIVE=false
+		shift
+		;;
+	--interactive)
+		INTERACTIVE=true
+		shift
+		;;
+	-*)
+		echo "Unknown option $1"
+		exit 1
+		;;
+	*)
+		TARGET_DIR="$1"
+		shift
+		;;
+	esac
 done
 
 # Set default target directory if not provided
 TARGET_DIR="${TARGET_DIR:-$(pwd)}"
 
 echo "👋 Hello! I'm your AI tools setup assistant."
-echo "🎯 I'll help you implement the AGENT.md specification in: $TARGET_DIR"
+echo "🎯 I'll help you implement the AGENT.md specification in: ${TARGET_DIR}"
 echo ""
 
 # Verify we're in a git repository
-if [[ ! -d "$TARGET_DIR/.git" ]]; then
-    echo "❌ Hmm, I don't see a git repository here. Let me check..."
-    echo "   $TARGET_DIR doesn't appear to be a git repository."
-    echo "   💡 Try running 'git init' first, then run me again!"
-    exit 1
+if [[ ! -d "${TARGET_DIR}/.git" ]]; then
+	echo "❌ Hmm, I don't see a git repository here. Let me check..."
+	echo "   ${TARGET_DIR} doesn't appear to be a git repository."
+	echo "   💡 Try running 'git init' first, then run me again!"
+	exit 1
 fi
 
 echo "✅ Great! I found a git repository. Let me analyze what's here..."
 
-cd "$TARGET_DIR"
+cd "${TARGET_DIR}"
 
 # Create backup directory
 BACKUP_DIR=".agent-md-backups"
-mkdir -p "$BACKUP_DIR"
+mkdir -p "${BACKUP_DIR}"
 
 # Interactive menu if no specific tools were selected
-if [[ "$INTERACTIVE" == "true" ]]; then
-    echo ""
-    echo "🤖 I can set up compatibility with several AI coding assistants."
-    echo "   Let me know which ones you'd like me to configure:"
-    echo ""
-    echo "   💡 I'll create symbolic links so all tools read from the same AGENT.md file."
-    echo ""
-    
-    # Claude Code
-    echo "🔹 Claude Code (CLAUDE.md)"
-    read -p "   Should I set this up? [Y/n]: " claude_choice
-    [[ "${claude_choice,,}" != "n" ]] && CLAUDE=true
-    
-    # GitHub Copilot
-    echo "🔹 GitHub Copilot (.github/copilot-instructions.md)"
-    read -p "   Should I set this up? [Y/n]: " copilot_choice
-    [[ "${copilot_choice,,}" != "n" ]] && COPILOT=true
-    
-    # Kiro AI
-    echo "🔹 Kiro AI (.kiro/steering/project.md)"
-    read -p "   Should I set this up? [y/N]: " kiro_choice
-    [[ "${kiro_choice,,}" == "y" ]] && KIRO=true
-    
-    # Cursor
-    echo "🔹 Cursor (.cursorrules)"
-    read -p "   Should I set this up? [y/N]: " cursor_choice
-    [[ "${cursor_choice,,}" == "y" ]] && CURSOR=true
-    
-    # Windsurf
-    echo "🔹 Windsurf (.windsurfrules)"
-    read -p "   Should I set this up? [y/N]: " windsurf_choice
-    [[ "${windsurf_choice,,}" == "y" ]] && WINDSURF=true
-    
-    # Continue
-    echo "🔹 Continue (.continuerc.json)"
-    read -p "   Should I set this up? [y/N]: " continue_choice
-    [[ "${continue_choice,,}" == "y" ]] && CONTINUE=true
-    
-    # Roo
-    echo "🔹 Roo (.roorc)"
-    read -p "   Should I set this up? [y/N]: " roo_choice
-    [[ "${roo_choice,,}" == "y" ]] && ROO=true
-    
-    # Cline
-    echo "🔹 Cline (.clinerc)"
-    read -p "   Should I set this up? [y/N]: " cline_choice
-    [[ "${cline_choice,,}" == "y" ]] && CLINE=true
-    
-    echo ""
-    echo "Perfect! Let me get to work on that for you..."
+if [[ "${INTERACTIVE}" == "true" ]]; then
+	echo ""
+	echo "🤖 I can set up compatibility with several AI coding assistants."
+	echo "   Let me know which ones you'd like me to configure:"
+	echo ""
+	echo "   💡 I'll create symbolic links so all tools read from the same AGENT.md file."
+	echo ""
+
+	# Claude Code
+	echo "🔹 Claude Code (CLAUDE.md)"
+	read -r -p "   Should I set this up? [Y/n]: " claude_choice
+	[[ "${claude_choice,,}" != "n" ]] && CLAUDE=true
+
+	# GitHub Copilot
+	echo "🔹 GitHub Copilot (.github/copilot-instructions.md)"
+	read -r -p "   Should I set this up? [Y/n]: " copilot_choice
+	[[ "${copilot_choice,,}" != "n" ]] && COPILOT=true
+
+	# Kiro AI
+	echo "🔹 Kiro AI (.kiro/steering/project.md)"
+	read -r -p "   Should I set this up? [y/N]: " kiro_choice
+	[[ "${kiro_choice,,}" == "y" ]] && KIRO=true
+
+	# Cursor
+	echo "🔹 Cursor (.cursorrules)"
+	read -r -p "   Should I set this up? [y/N]: " cursor_choice
+	[[ "${cursor_choice,,}" == "y" ]] && CURSOR=true
+
+	# Windsurf
+	echo "🔹 Windsurf (.windsurfrules)"
+	read -r -p "   Should I set this up? [y/N]: " windsurf_choice
+	[[ "${windsurf_choice,,}" == "y" ]] && WINDSURF=true
+
+	# Continue
+	echo "🔹 Continue (.continuerc.json)"
+	read -r -p "   Should I set this up? [y/N]: " continue_choice
+	[[ "${continue_choice,,}" == "y" ]] && CONTINUE=true
+
+	# Roo
+	echo "🔹 Roo (.roorc)"
+	read -r -p "   Should I set this up? [y/N]: " roo_choice
+	[[ "${roo_choice,,}" == "y" ]] && ROO=true
+
+	# Cline
+	echo "🔹 Cline (.clinerc)"
+	read -r -p "   Should I set this up? [y/N]: " cline_choice
+	[[ "${cline_choice,,}" == "y" ]] && CLINE=true
+
+	echo ""
+	echo "Perfect! Let me get to work on that for you..."
 fi
 
 # Create AGENT.md if it doesn't exist
 if [[ ! -f "AGENT.md" ]]; then
-    echo ""
-    echo "📝 I notice you don't have an AGENT.md file yet. Let me create one for you..."
-    echo "   This will be the central configuration file that all AI assistants will read from."
-    cat > AGENT.md << 'EOF'
+	echo ""
+	echo "📝 I notice you don't have an AGENT.md file yet. Let me create one for you..."
+	echo "   This will be the central configuration file that all AI assistants will read from."
+	cat >AGENT.md <<'EOF'
 # AGENT.md
 
 This is a configuration file for AI coding assistants following the [AGENT.md specification](https://ampcode.com/AGENT.md).
@@ -267,10 +265,10 @@ type: short description
 ### Documentation Guidelines:
 [Describe documentation standards]
 EOF
-    echo "✅ Done! I've created a comprehensive AGENT.md template for you."
+	echo "✅ Done! I've created a comprehensive AGENT.md template for you."
 else
-    echo ""
-    echo "ℹ️  I see you already have an AGENT.md file. Great! I'll work with that."
+	echo ""
+	echo "ℹ️  I see you already have an AGENT.md file. Great! I'll work with that."
 fi
 
 echo ""
@@ -279,83 +277,83 @@ echo "   I'll safely back these up before creating the new unified setup."
 BACKED_UP_FILES=()
 
 # Claude Code compatibility
-if [[ "$CLAUDE" == "true" ]]; then
-    if [[ -f "CLAUDE.md" && ! -L "CLAUDE.md" ]]; then
-        echo "   📦 Found existing CLAUDE.md - backing it up safely"
-        cp "CLAUDE.md" "$BACKUP_DIR/CLAUDE.md"
-        BACKED_UP_FILES+=("CLAUDE.md")
-        rm "CLAUDE.md"
-    fi
+if [[ ${CLAUDE} == "true" ]]; then
+	if [[ -f "CLAUDE.md" && ! -L "CLAUDE.md" ]]; then
+		echo "   📦 Found existing CLAUDE.md - backing it up safely"
+		cp "CLAUDE.md" "${BACKUP_DIR}/CLAUDE.md"
+		BACKED_UP_FILES+=("CLAUDE.md")
+		rm "CLAUDE.md"
+	fi
 fi
 
 # GitHub Copilot compatibility
-if [[ "$COPILOT" == "true" ]]; then
-    if [[ -f ".github/copilot-instructions.md" && ! -L ".github/copilot-instructions.md" ]]; then
-        echo "   📦 Found existing GitHub Copilot instructions - backing them up"
-        cp ".github/copilot-instructions.md" "$BACKUP_DIR/copilot-instructions.md"
-        BACKED_UP_FILES+=(".github/copilot-instructions.md")
-        rm ".github/copilot-instructions.md"
-    fi
+if [[ ${COPILOT} == "true" ]]; then
+	if [[ -f ".github/copilot-instructions.md" && ! -L ".github/copilot-instructions.md" ]]; then
+		echo "   📦 Found existing GitHub Copilot instructions - backing them up"
+		cp ".github/copilot-instructions.md" "${BACKUP_DIR}/copilot-instructions.md"
+		BACKED_UP_FILES+=(".github/copilot-instructions.md")
+		rm ".github/copilot-instructions.md"
+	fi
 fi
 
 # Kiro AI compatibility
-if [[ "$KIRO" == "true" ]]; then
-    if [[ -f ".kiro/steering/project.md" && ! -L ".kiro/steering/project.md" ]]; then
-        echo "   📦 Found existing Kiro steering file - backing it up"
-        cp ".kiro/steering/project.md" "$BACKUP_DIR/kiro-steering-project.md"
-        BACKED_UP_FILES+=(".kiro/steering/project.md")
-        rm ".kiro/steering/project.md"
-    fi
+if [[ ${KIRO} == "true" ]]; then
+	if [[ -f ".kiro/steering/project.md" && ! -L ".kiro/steering/project.md" ]]; then
+		echo "   📦 Found existing Kiro steering file - backing it up"
+		cp ".kiro/steering/project.md" "${BACKUP_DIR}/kiro-steering-project.md"
+		BACKED_UP_FILES+=(".kiro/steering/project.md")
+		rm ".kiro/steering/project.md"
+	fi
 fi
 
 # Cursor compatibility
-if [[ "$CURSOR" == "true" ]]; then
-    if [[ -f ".cursorrules" && ! -L ".cursorrules" ]]; then
-        echo "   📦 Found existing Cursor rules - backing them up"
-        cp ".cursorrules" "$BACKUP_DIR/cursorrules"
-        BACKED_UP_FILES+=(".cursorrules")
-        rm ".cursorrules"
-    fi
+if [[ ${CURSOR} == "true" ]]; then
+	if [[ -f ".cursorrules" && ! -L ".cursorrules" ]]; then
+		echo "   📦 Found existing Cursor rules - backing them up"
+		cp ".cursorrules" "${BACKUP_DIR}/cursorrules"
+		BACKED_UP_FILES+=(".cursorrules")
+		rm ".cursorrules"
+	fi
 fi
 
 # Windsurf compatibility
-if [[ "$WINDSURF" == "true" ]]; then
-    if [[ -f ".windsurfrules" && ! -L ".windsurfrules" ]]; then
-        echo "   📦 Found existing Windsurf rules - backing them up"
-        cp ".windsurfrules" "$BACKUP_DIR/windsurfrules"
-        BACKED_UP_FILES+=(".windsurfrules")
-        rm ".windsurfrules"
-    fi
+if [[ ${WINDSURF} == "true" ]]; then
+	if [[ -f ".windsurfrules" && ! -L ".windsurfrules" ]]; then
+		echo "   📦 Found existing Windsurf rules - backing them up"
+		cp ".windsurfrules" "${BACKUP_DIR}/windsurfrules"
+		BACKED_UP_FILES+=(".windsurfrules")
+		rm ".windsurfrules"
+	fi
 fi
 
 # Continue compatibility
-if [[ "$CONTINUE" == "true" ]]; then
-    if [[ -f ".continuerc.json" && ! -L ".continuerc.json" ]]; then
-        echo "   📦 Found existing Continue config - backing it up"
-        cp ".continuerc.json" "$BACKUP_DIR/continuerc.json"
-        BACKED_UP_FILES+=(".continuerc.json")
-        rm ".continuerc.json"
-    fi
+if [[ ${CONTINUE} == "true" ]]; then
+	if [[ -f ".continuerc.json" && ! -L ".continuerc.json" ]]; then
+		echo "   📦 Found existing Continue config - backing it up"
+		cp ".continuerc.json" "${BACKUP_DIR}/continuerc.json"
+		BACKED_UP_FILES+=(".continuerc.json")
+		rm ".continuerc.json"
+	fi
 fi
 
 # Roo compatibility
-if [[ "$ROO" == "true" ]]; then
-    if [[ -f ".roorc" && ! -L ".roorc" ]]; then
-        echo "   📦 Found existing Roo config - backing it up"
-        cp ".roorc" "$BACKUP_DIR/roorc"
-        BACKED_UP_FILES+=(".roorc")
-        rm ".roorc"
-    fi
+if [[ ${ROO} == "true" ]]; then
+	if [[ -f ".roorc" && ! -L ".roorc" ]]; then
+		echo "   📦 Found existing Roo config - backing it up"
+		cp ".roorc" "${BACKUP_DIR}/roorc"
+		BACKED_UP_FILES+=(".roorc")
+		rm ".roorc"
+	fi
 fi
 
 # Cline compatibility
-if [[ "$CLINE" == "true" ]]; then
-    if [[ -f ".clinerc" && ! -L ".clinerc" ]]; then
-        echo "   📦 Found existing Cline config - backing it up"
-        cp ".clinerc" "$BACKUP_DIR/clinerc"
-        BACKED_UP_FILES+=(".clinerc")
-        rm ".clinerc"
-    fi
+if [[ ${CLINE} == "true" ]]; then
+	if [[ -f ".clinerc" && ! -L ".clinerc" ]]; then
+		echo "   📦 Found existing Cline config - backing it up"
+		cp ".clinerc" "${BACKUP_DIR}/clinerc"
+		BACKED_UP_FILES+=(".clinerc")
+		rm ".clinerc"
+	fi
 fi
 
 # Create symbolic links for AI tool compatibility
@@ -364,91 +362,115 @@ echo "🔗 Excellent! Now I'm creating the symbolic links..."
 echo "   This ensures all your AI assistants read from the same AGENT.md configuration."
 
 # Claude Code compatibility
-if [[ "$CLAUDE" == "true" ]]; then
-    if [[ ! -L "CLAUDE.md" ]]; then
-        ln -sf AGENT.md CLAUDE.md
-        echo "   ✅ Claude Code → AGENT.md"
-    fi
+if [[ ${CLAUDE} == "true" ]]; then
+	if [[ ! -L "CLAUDE.md" ]]; then
+		ln -sf AGENT.md CLAUDE.md
+		echo "   ✅ Claude Code → AGENT.md"
+	fi
 fi
 
 # GitHub Copilot compatibility
-if [[ "$COPILOT" == "true" ]]; then
-    mkdir -p .github
-    if [[ ! -L ".github/copilot-instructions.md" ]]; then
-        ln -sf ../AGENT.md .github/copilot-instructions.md
-        echo "   ✅ GitHub Copilot → AGENT.md"
-    fi
+if [[ ${COPILOT} == "true" ]]; then
+	mkdir -p .github
+	if [[ ! -L ".github/copilot-instructions.md" ]]; then
+		ln -sf ../AGENT.md .github/copilot-instructions.md
+		echo "   ✅ GitHub Copilot → AGENT.md"
+	fi
 fi
 
 # Kiro AI compatibility
-if [[ "$KIRO" == "true" ]]; then
-    mkdir -p .kiro/steering
-    if [[ ! -L ".kiro/steering/project.md" ]]; then
-        ln -sf ../../AGENT.md .kiro/steering/project.md
-        echo "   ✅ Kiro AI → AGENT.md"
-    fi
+if [[ ${KIRO} == "true" ]]; then
+	mkdir -p .kiro/steering
+	if [[ ! -L ".kiro/steering/project.md" ]]; then
+		ln -sf ../../AGENT.md .kiro/steering/project.md
+		echo "   ✅ Kiro AI → AGENT.md"
+	fi
 fi
 
 # Cursor compatibility
-if [[ "$CURSOR" == "true" ]]; then
-    if [[ ! -L ".cursorrules" ]]; then
-        ln -sf AGENT.md .cursorrules
-        echo "   ✅ Cursor → AGENT.md"
-    fi
+if [[ ${CURSOR} == "true" ]]; then
+	if [[ ! -L ".cursorrules" ]]; then
+		ln -sf AGENT.md .cursorrules
+		echo "   ✅ Cursor → AGENT.md"
+	fi
 fi
 
 # Windsurf compatibility
-if [[ "$WINDSURF" == "true" ]]; then
-    if [[ ! -L ".windsurfrules" ]]; then
-        ln -sf AGENT.md .windsurfrules
-        echo "   ✅ Windsurf → AGENT.md"
-    fi
+if [[ ${WINDSURF} == "true" ]]; then
+	if [[ ! -L ".windsurfrules" ]]; then
+		ln -sf AGENT.md .windsurfrules
+		echo "   ✅ Windsurf → AGENT.md"
+	fi
 fi
 
 # Continue compatibility
-if [[ "$CONTINUE" == "true" ]]; then
-    if [[ ! -L ".continuerc.json" ]]; then
-        ln -sf AGENT.md .continuerc.json
-        echo "   ✅ Continue → AGENT.md"
-    fi
+if [[ ${CONTINUE} == "true" ]]; then
+	if [[ ! -L ".continuerc.json" ]]; then
+		ln -sf AGENT.md .continuerc.json
+		echo "   ✅ Continue → AGENT.md"
+	fi
 fi
 
 # Roo compatibility
-if [[ "$ROO" == "true" ]]; then
-    if [[ ! -L ".roorc" ]]; then
-        ln -sf AGENT.md .roorc
-        echo "   ✅ Roo → AGENT.md"
-    fi
+if [[ ${ROO} == "true" ]]; then
+	if [[ ! -L ".roorc" ]]; then
+		ln -sf AGENT.md .roorc
+		echo "   ✅ Roo → AGENT.md"
+	fi
 fi
 
 # Cline compatibility
-if [[ "$CLINE" == "true" ]]; then
-    if [[ ! -L ".clinerc" ]]; then
-        ln -sf AGENT.md .clinerc
-        echo "   ✅ Cline → AGENT.md"
-    fi
+if [[ ${CLINE} == "true" ]]; then
+	if [[ ! -L ".clinerc" ]]; then
+		ln -sf AGENT.md .clinerc
+		echo "   ✅ Cline → AGENT.md"
+	fi
 fi
 
 # Verify symlinks
 echo ""
 echo "🔍 Verifying symbolic links..."
-[[ "$CLAUDE" == "true" ]] && echo "CLAUDE.md → $(readlink CLAUDE.md 2>/dev/null || echo 'NOT A SYMLINK')"
-[[ "$COPILOT" == "true" ]] && echo ".github/copilot-instructions.md → $(readlink .github/copilot-instructions.md 2>/dev/null || echo 'NOT A SYMLINK')"
-[[ "$KIRO" == "true" ]] && echo ".kiro/steering/project.md → $(readlink .kiro/steering/project.md 2>/dev/null || echo 'NOT A SYMLINK')"
-[[ "$CURSOR" == "true" ]] && echo ".cursorrules → $(readlink .cursorrules 2>/dev/null || echo 'NOT A SYMLINK')"
-[[ "$WINDSURF" == "true" ]] && echo ".windsurfrules → $(readlink .windsurfrules 2>/dev/null || echo 'NOT A SYMLINK')"
-[[ "$CONTINUE" == "true" ]] && echo ".continuerc.json → $(readlink .continuerc.json 2>/dev/null || echo 'NOT A SYMLINK')"
-[[ "$ROO" == "true" ]] && echo ".roorc → $(readlink .roorc 2>/dev/null || echo 'NOT A SYMLINK')"
-[[ "$CLINE" == "true" ]] && echo ".clinerc → $(readlink .clinerc 2>/dev/null || echo 'NOT A SYMLINK')"
+if [[ ${CLAUDE} == "true" ]]; then
+	link_target=$(readlink CLAUDE.md 2>/dev/null) || link_target='NOT A SYMLINK'
+	echo "CLAUDE.md → ${link_target}"
+fi
+if [[ ${COPILOT} == "true" ]]; then
+	link_target=$(readlink .github/copilot-instructions.md 2>/dev/null) || link_target='NOT A SYMLINK'
+	echo ".github/copilot-instructions.md → ${link_target}"
+fi
+if [[ ${KIRO} == "true" ]]; then
+	link_target=$(readlink .kiro/steering/project.md 2>/dev/null) || link_target='NOT A SYMLINK'
+	echo ".kiro/steering/project.md → ${link_target}"
+fi
+if [[ ${CURSOR} == "true" ]]; then
+	link_target=$(readlink .cursorrules 2>/dev/null) || link_target='NOT A SYMLINK'
+	echo ".cursorrules → ${link_target}"
+fi
+if [[ ${WINDSURF} == "true" ]]; then
+	link_target=$(readlink .windsurfrules 2>/dev/null) || link_target='NOT A SYMLINK'
+	echo ".windsurfrules → ${link_target}"
+fi
+if [[ ${CONTINUE} == "true" ]]; then
+	link_target=$(readlink .continuerc.json 2>/dev/null) || link_target='NOT A SYMLINK'
+	echo ".continuerc.json → ${link_target}"
+fi
+if [[ ${ROO} == "true" ]]; then
+	link_target=$(readlink .roorc 2>/dev/null) || link_target='NOT A SYMLINK'
+	echo ".roorc → ${link_target}"
+fi
+if [[ ${CLINE} == "true" ]]; then
+	link_target=$(readlink .clinerc 2>/dev/null) || link_target='NOT A SYMLINK'
+	echo ".clinerc → ${link_target}"
+fi
 
 # Generate LLM integration prompt if files were backed up
 if [[ ${#BACKED_UP_FILES[@]} -gt 0 ]]; then
-    echo ""
-    echo "🧠 I found ${#BACKED_UP_FILES[@]} existing configuration file(s) to integrate!"
-    echo "   Let me create an intelligent integration prompt for you..."
-    
-    PROMPT_FILE="$BACKUP_DIR/integration-prompt.md"
-    cat > "$PROMPT_FILE" << 'EOF'
+	echo ""
+	echo "🧠 I found ${#BACKED_UP_FILES[@]} existing configuration file(s) to integrate!"
+	echo "   Let me create an intelligent integration prompt for you..."
+
+	PROMPT_FILE="${BACKUP_DIR}/integration-prompt.md"
+	cat >"${PROMPT_FILE}" <<'EOF'
 # AGENT.md Integration Prompt
 
 You are tasked with integrating existing AI agent instruction files into a new AGENT.md file following the [AGENT.md specification](https://ampcode.com/AGENT.md).
@@ -476,27 +498,26 @@ The following files have been backed up and should be integrated:
 
 EOF
 
-    # List backed up files with their content
-    for file in "${BACKED_UP_FILES[@]}"; do
-        backup_name=$(basename "$file" | sed 's/\./_/g' | sed 's/\//_/g')
-        echo "### $file" >> "$PROMPT_FILE"
-        echo '```' >> "$PROMPT_FILE"
-        if [[ -f "$BACKUP_DIR/$(basename "$file")" ]]; then
-            cat "$BACKUP_DIR/$(basename "$file")" >> "$PROMPT_FILE"
-        else
-            # Handle files with path-based backup names
-            for backup_file in "$BACKUP_DIR"/*; do
-                if [[ "$(basename "$backup_file")" == *"$(basename "$file" .md)"* ]] || [[ "$(basename "$backup_file")" == *"$(basename "$file" .json)"* ]]; then
-                    cat "$backup_file" >> "$PROMPT_FILE"
-                    break
-                fi
-            done
-        fi
-        echo '```' >> "$PROMPT_FILE"
-        echo "" >> "$PROMPT_FILE"
-    done
+	# List backed up files with their content
+	for file in "${BACKED_UP_FILES[@]}"; do
+		echo "### ${file}" >>"${PROMPT_FILE}"
+		echo '```' >>"${PROMPT_FILE}"
+		if [[ -f "${BACKUP_DIR}/$(basename "${file}")" ]]; then
+			cat "${BACKUP_DIR}/$(basename "${file}")" >>"${PROMPT_FILE}"
+		else
+			# Handle files with path-based backup names
+			for backup_file in "${BACKUP_DIR}"/*; do
+				if [[ "$(basename "${backup_file}")" == *"$(basename "${file}" .md)"* ]] || [[ "$(basename "${backup_file}")" == *"$(basename "${file}" .json)"* ]]; then
+					cat "${backup_file}" >>"${PROMPT_FILE}"
+					break
+				fi
+			done
+		fi
+		echo '```' >>"${PROMPT_FILE}"
+		echo "" >>"${PROMPT_FILE}"
+	done
 
-    cat >> "$PROMPT_FILE" << 'EOF'
+	cat >>"${PROMPT_FILE}" <<'EOF'
 
 ## Integration Guidelines
 
@@ -517,38 +538,38 @@ Provide a complete AGENT.md file that:
 
 EOF
 
-    echo ""
-    echo "🎉 Perfect! I've created a comprehensive integration prompt for you."
-    echo "   📄 You can find it at: $PROMPT_FILE"
-    echo ""
-    echo "🤖 Here's what I recommend you do next:"
-    echo ""
-    echo "   1️⃣  Open the integration prompt file I created"
-    echo "   2️⃣  Copy its contents to your favorite LLM (Claude, GPT-4, etc.)"
-    echo "   3️⃣  Ask the LLM to generate an integrated AGENT.md file"
-    echo "   4️⃣  Replace the template AGENT.md with the LLM's output"
-    echo "   5️⃣  Review, refine, and commit your changes"
-    echo ""
-    echo "💡 The prompt includes all your backed-up configurations and detailed"
-    echo "   integration guidelines following the AGENT.md specification!"
+	echo ""
+	echo "🎉 Perfect! I've created a comprehensive integration prompt for you."
+	echo "   📄 You can find it at ${PROMPT_FILE}"
+	echo ""
+	echo "🤖 Here's what I recommend you do next:"
+	echo ""
+	echo "   1️⃣  Open the integration prompt file I created"
+	echo "   2️⃣  Copy its contents to your favorite LLM (Claude, GPT-4, etc.)"
+	echo "   3️⃣  Ask the LLM to generate an integrated AGENT.md file"
+	echo "   4️⃣  Replace the template AGENT.md with the LLM's output"
+	echo "   5️⃣  Review, refine, and commit your changes"
+	echo ""
+	echo "💡 The prompt includes all your backed-up configurations and detailed"
+	echo "   integration guidelines following the AGENT.md specification!"
 else
-    echo ""
-    echo "🎯 Great! Since you didn't have existing configs, you're all set!"
-    echo ""
-    echo "💻 Here's what you should do next:"
-    echo ""
-    echo "   1️⃣  Edit AGENT.md to customize it for your project"
-    echo "   2️⃣  Add and commit your changes:"
-    echo "      git add AGENT.md"
-    [[ "$CLAUDE" == "true" ]] && echo "      git add CLAUDE.md"
-    [[ "$COPILOT" == "true" ]] && echo "      git add .github/copilot-instructions.md"
-    [[ "$KIRO" == "true" ]] && echo "      git add .kiro/"
-    [[ "$CURSOR" == "true" ]] && echo "      git add .cursorrules"
-    [[ "$WINDSURF" == "true" ]] && echo "      git add .windsurfrules"
-    [[ "$CONTINUE" == "true" ]] && echo "      git add .continuerc.json"
-    [[ "$ROO" == "true" ]] && echo "      git add .roorc"
-    [[ "$CLINE" == "true" ]] && echo "      git add .clinerc"
-    echo "      git commit -m 'feat: implement AGENT.md specification'"
+	echo ""
+	echo "🎯 Great! Since you didn't have existing configs, you're all set!"
+	echo ""
+	echo "💻 Here's what you should do next:"
+	echo ""
+	echo "   1️⃣  Edit AGENT.md to customize it for your project"
+	echo "   2️⃣  Add and commit your changes:"
+	echo "      git add AGENT.md"
+	[[ ${CLAUDE} == "true" ]] && echo "      git add CLAUDE.md"
+	[[ ${COPILOT} == "true" ]] && echo "      git add .github/copilot-instructions.md"
+	[[ ${KIRO} == "true" ]] && echo "      git add .kiro/"
+	[[ ${CURSOR} == "true" ]] && echo "      git add .cursorrules"
+	[[ ${WINDSURF} == "true" ]] && echo "      git add .windsurfrules"
+	[[ ${CONTINUE} == "true" ]] && echo "      git add .continuerc.json"
+	[[ ${ROO} == "true" ]] && echo "      git add .roorc"
+	[[ ${CLINE} == "true" ]] && echo "      git add .clinerc"
+	echo "      git commit -m 'feat: implement AGENT.md specification'"
 fi
 
 echo ""

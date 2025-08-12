@@ -20,12 +20,15 @@ This script consolidates scattered AI tool-specific configuration files into a s
 ## Usage
 
 ### Interactive Mode (Default)
+
 ```bash
 ./setup-agent-md.sh
 ```
+
 Shows a menu to select which AI tools to configure.
 
 ### Command Line Options
+
 ```bash
 # Enable specific tools
 ./setup-agent-md.sh --claude --copilot --cursor
@@ -41,8 +44,9 @@ Shows a menu to select which AI tools to configure.
 ```
 
 ### Available Flags
+
 - `--claude` - Enable Claude Code compatibility
-- `--copilot` - Enable GitHub Copilot compatibility  
+- `--copilot` - Enable GitHub Copilot compatibility
 - `--kiro` - Enable Kiro AI compatibility
 - `--cursor` - Enable Cursor compatibility
 - `--windsurf` - Enable Windsurf compatibility
@@ -55,19 +59,23 @@ Shows a menu to select which AI tools to configure.
 ## How It Works
 
 ### 1. Backup Phase
+
 - Creates `.agent-md-backups/` directory
 - Backs up any existing AI instruction files before removing them
 - Tracks which files were backed up
 
 ### 2. AGENT.md Creation
+
 - Creates a template `AGENT.md` file if it doesn't exist
 - Follows the official AGENT.md specification structure
 
 ### 3. Symlink Creation
+
 - Creates symbolic links for selected AI tools pointing to `AGENT.md`
 - Ensures all AI assistants read from the same configuration
 
 ### 4. LLM Integration (if backups exist)
+
 - Generates a comprehensive integration prompt at `.agent-md-backups/integration-prompt.md`
 - Includes all backed-up file contents with integration guidelines
 - Provides step-by-step instructions for LLM-assisted content merging
@@ -75,6 +83,7 @@ Shows a menu to select which AI tools to configure.
 ## Example Workflow
 
 ### First-time Setup
+
 ```bash
 ./setup-agent-md.sh --all
 # Creates AGENT.md template and symlinks
@@ -83,6 +92,7 @@ Shows a menu to select which AI tools to configure.
 ```
 
 ### Migrating Existing Configs
+
 ```bash
 ./setup-agent-md.sh --claude --copilot
 # 📦 Backing up existing CLAUDE.md
@@ -114,7 +124,7 @@ Shows a menu to select which AI tools to configure.
 
 ## Repository Structure After Setup
 
-```
+```text
 your-repo/
 ├── AGENT.md                           # Main configuration file
 ├── CLAUDE.md -> AGENT.md              # Claude Code symlink
@@ -139,7 +149,7 @@ your-repo/
 The generated AGENT.md follows the official specification with these sections:
 
 1. **Project Overview** - Description, purpose, and key characteristics
-2. **Development Workflow** - Git workflow, branching, commit standards  
+2. **Development Workflow** - Git workflow, branching, commit standards
 3. **Build Commands** - Dependencies, setup, testing, linting commands
 4. **Code Style** - Style guidelines and conventions
 5. **Architecture** - Key components, structure, environment variables
@@ -150,22 +160,29 @@ The generated AGENT.md follows the official specification with these sections:
 ## Troubleshooting
 
 ### Permission Errors
+
 Ensure the script is executable:
+
 ```bash
 chmod +x setup-agent-md.sh
 ```
 
 ### Not a Git Repository
+
 The script requires a git repository. Initialize one first:
+
 ```bash
 git init
 ```
 
 ### Existing Symlinks
+
 The script safely handles existing symlinks and won't overwrite them unless they're regular files.
 
 ### Integration Issues
+
 If the LLM integration doesn't work as expected:
+
 1. Check `.agent-md-backups/integration-prompt.md` for completeness
 2. Try different LLM models or prompting approaches
 3. Manually review and edit the generated AGENT.md
