@@ -152,7 +152,7 @@ if [[ "${INTERACTIVE}" == "true" ]]; then
 	# Windsurf
 	echo "🔹 Windsurf (.windsurfrules)"
 	read -r -p "   Should I set this up? [y/N]: " windsurf_choice
-	[[ ${windsurf_choice,,} == "y" ]] && WINDSURF=true
+	[[ "${windsurf_choice,,}" == "y" ]] && WINDSURF=true
 
 	# Continue
 	echo "🔹 Continue (.continuerc.json)"
