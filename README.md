@@ -20,9 +20,15 @@ ai-tools/
 │   ├── agent-setup/       # AGENT.md specification tools
 │   │   ├── README.md      # Documentation
 │   │   └── setup-agent-md.sh  # Setup script
+│   ├── mcp-server/        # MCP server implementation
+│   │   ├── README.md      # MCP server documentation
+│   │   ├── index.ts       # TypeScript source
+│   │   ├── index.js       # JavaScript entry point
+│   │   └── test.js        # Test suite
 │   ├── workflow-automation/    # Workflow automation tools
 │   └── configuration-management/  # Configuration management tools
 ├── docs/                  # Documentation and guides
+├── dist/                  # Compiled TypeScript output
 └── examples/              # Example configurations and usage
 ```
 
@@ -54,8 +60,26 @@ Implements the [AGENT.md specification](https://ampcode.com/AGENT.md) in any rep
 - Generates LLM integration prompts for intelligent content merging
 - Creates symbolic links for multi-tool compatibility
 - Follows official AGENT.md specification
+- **NEW**: Available as both bash script and MCP server
 
 [**Full Documentation →**](tools/agent-setup/README.md)
+
+#### MCP Server
+
+The same functionality is also available as a Model Context Protocol (MCP) server for programmatic access:
+
+```bash
+# Start MCP server
+npm run mcp
+
+# Run tests
+npm run test
+
+# Build from TypeScript
+npm run build
+```
+
+[**MCP Server Documentation →**](tools/mcp-server/README.md)
 
 ## 🚀 Getting Started
 
