@@ -12,7 +12,8 @@
     "format": "trunk fmt",
     "build": "tsc",
     "mcp": "node tools/mcp-server/index.js",
-    "test": "node tools/mcp-server/test.js"
+    "test": "node tools/mcp-server/test.js",
+    "demo": "node tools/mcp-server/demo.js"
   },
   "keywords": [
     "ai",

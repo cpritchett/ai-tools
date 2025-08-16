@@ -101,6 +101,16 @@ Run the built-in test suite to verify functionality:
 npm run test
 ```
 
+### Interactive Demo
+
+See the MCP server in action with a live demo:
+
+```bash
+node tools/mcp-server/demo.js
+```
+
+This demo creates a temporary project and demonstrates all MCP server capabilities.
+
 ### Example MCP Client Usage
 
 The server communicates via JSON-RPC over stdio following the MCP protocol. Example tool call:
