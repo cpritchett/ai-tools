@@ -3,7 +3,7 @@
 // Test script for the AI Tools MCP Server
 // This simulates calling the MCP server functions directly
 
-import { AIToolsMCPServer } from '../../dist/index.js';
+import { AIToolsMCPServer } from './dist/index.js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -14,7 +14,7 @@ async function runTests() {
   console.log('🧪 Testing AI Tools MCP Server...\n');
   
   // Create a temporary test directory
-  const testDir = path.join(__dirname, '../../tmp', 'mcp-test');
+  const testDir = path.join(__dirname, '../tmp', 'mcp-test');
   
   try {
     // Clean up previous test if exists

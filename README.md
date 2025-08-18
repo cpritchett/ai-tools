@@ -1,181 +1,222 @@
-# AI Tools
+# AGENT.md MCP Server
 
-A collection of scripts and utilities for standardizing AI coding assistant configurations and workflows across repositories.
+A Model Context Protocol (MCP) server that implements the [AGENT.md specification](https://ampcode.com/AGENT.md) for standardizing AI coding assistant configurations across development projects.
 
-## 🎯 Purpose
+## 🎯 Overview
 
-This repository provides tools to:
+This MCP server provides programmatic access to AGENT.md setup functionality, enabling any MCP-compatible client to configure AI tool compatibility in repositories. It creates a unified configuration source that all major AI coding assistants can read, eliminating the need to maintain separate configuration files for each tool.
 
-- Standardize AI assistant configurations using industry standards
-- Automate setup and migration of AI tool configurations
-- Reduce maintenance overhead across multiple repositories
-- Improve consistency in AI-assisted development workflows
+## ✨ Features
 
-## 📁 Repository Structure
+- **🔌 MCP Protocol Integration** - Standard interface for AI tool integration
+- **🛡️ Safe Configuration Management** - Automatic backup and restore of existing configs
+- **🔗 Symbolic Link Creation** - Proper relative paths for cross-directory compatibility
+- **🧠 LLM Integration Prompts** - Generate merge prompts for intelligent config consolidation
+- **✅ Setup Verification** - Validate configurations and repository state
+- **🎯 8 AI Tool Support** - Claude, Copilot, Kiro, Cursor, Windsurf, Continue, Roo, Cline
 
-```text
-ai-tools/
-├── README.md              # This file
-├── tools/                 # AI development tools
-│   ├── agent-setup/       # AGENT.md specification tools
-│   │   ├── README.md      # Documentation
-│   │   └── setup-agent-md.sh  # Setup script
-│   ├── mcp-server/        # MCP server implementation
-│   │   ├── README.md      # MCP server documentation
-│   │   ├── index.ts       # TypeScript source
-│   │   ├── index.js       # JavaScript entry point
-│   │   └── test.js        # Test suite
-│   ├── workflow-automation/    # Workflow automation tools
-│   └── configuration-management/  # Configuration management tools
-├── docs/                  # Documentation and guides
-├── dist/                  # Compiled TypeScript output
-└── examples/              # Example configurations and usage
-```
+## 🚀 Quick Start
 
-## 🛠️ Tools
-
-### Agent Setup Tools
-
-#### setup-agent-md.sh
-
-Implements the [AGENT.md specification](https://ampcode.com/AGENT.md) in any repository, creating a universal configuration file that all AI coding assistants can read.
-
-**Quick Start:**
+### Install Dependencies
 
 ```bash
-# Interactive setup
-./tools/agent-setup/setup-agent-md.sh
-
-# Enable all AI tools
-./tools/agent-setup/setup-agent-md.sh --all
-
-# Specific tools only
-./tools/agent-setup/setup-agent-md.sh --claude --copilot --cursor
+npm install
 ```
 
-**Features:**
-
-- Supports 8+ major AI coding assistants
-- Backs up existing configurations safely
-- Generates LLM integration prompts for intelligent content merging
-- Creates symbolic links for multi-tool compatibility
-- Follows official AGENT.md specification
-- **NEW**: Available as both bash script and MCP server
-
-[**Full Documentation →**](tools/agent-setup/README.md)
-
-#### MCP Server
-
-The same functionality is also available as a Model Context Protocol (MCP) server for programmatic access:
+### Start MCP Server
 
 ```bash
-# Start MCP server
 npm run mcp
+# or
+npm start
+```
 
-# Run tests
+### Run Interactive Demo
+
+```bash
+npm run demo
+```
+
+### Run Tests
+
+```bash
 npm run test
+```
 
-# Build from TypeScript
+### Build from TypeScript
+
+```bash
 npm run build
 ```
 
-[**MCP Server Documentation →**](tools/mcp-server/README.md)
+## 🔧 MCP Client Integration
 
-## 🚀 Getting Started
+### Claude Desktop
 
-1. **Clone the repository:**
+Add to your Claude Desktop configuration:
 
-   ```bash
-   git clone <repository-url>
-   cd ai-tools
-   ```
+```json
+{
+  "mcpServers": {
+    "agent-md": {
+      "command": "node",
+      "args": ["/path/to/agent-md-mcp-server/index.js"]
+    }
+  }
+}
+```
 
-2. **Make tools executable:**
+### Programmatic Usage
 
-   ```bash
-   chmod +x tools/**/*.sh
-   ```
+```javascript
+import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 
-3. **Run a tool:**
+const client = new Client(transport);
+await client.connect();
 
-   ```bash
-   # Navigate to your target repository
-   cd /path/to/your/repository
-
-   # Run the AGENT.md setup tool
-   /path/to/ai-tools/tools/agent-setup/setup-agent-md.sh --all
-   ```
+// Setup AGENT.md with specific tools
+const result = await client.callTool({
+  name: 'setup_agent_md',
+  arguments: {
+    targetDirectory: '/path/to/project',
+    enabledTools: ['claude', 'copilot', 'cursor'],
+    enableAll: false
+  }
+});
+```
 
 ## 📖 Supported AI Tools
 
-| Tool           | Configuration File                | Status |
-| -------------- | --------------------------------- | ------ |
-| Claude Code    | `CLAUDE.md`                       | ✅     |
-| GitHub Copilot | `.github/copilot-instructions.md` | ✅     |
-| Kiro AI        | `.kiro/steering/project.md`       | ✅     |
-| Cursor         | `.cursorrules`                    | ✅     |
-| Windsurf       | `.windsurfrules`                  | ✅     |
-| Continue       | `.continuerc.json`                | ✅     |
-| Roo            | `.roorc`                          | ✅     |
-| Cline          | `.clinerc`                        | ✅     |
+| Tool           | Configuration File                | Symbolic Link | Default |
+| -------------- | --------------------------------- | ------------- | ------- |
+| Claude Code    | `CLAUDE.md`                       | → `AGENT.md`  | ✅      |
+| GitHub Copilot | `.github/copilot-instructions.md` | → `../AGENT.md` | ✅      |
+| Kiro AI        | `.kiro/steering/project.md`       | → `../../AGENT.md` | ❌      |
+| Cursor         | `.cursorrules`                    | → `AGENT.md`  | ❌      |
+| Windsurf       | `.windsurfrules`                  | → `AGENT.md`  | ❌      |
+| Continue       | `.continuerc.json`                | → `AGENT.md`  | ❌      |
+| Roo            | `.roorc`                          | → `AGENT.md`  | ❌      |
+| Cline          | `.clinerc`                        | → `AGENT.md`  | ❌      |
+
+## 🛠️ Available MCP Tools
+
+### `setup_agent_md`
+
+Main setup function implementing complete AGENT.md specification setup.
+
+**Parameters:**
+- `targetDirectory` (optional): Target directory path (defaults to current directory)
+- `enabledTools` (optional): Array of AI tools to enable (`["claude", "copilot", ...]`)
+- `enableAll` (optional): Enable all AI tools (default: false)
+
+### `list_supported_tools`
+
+Returns comprehensive information about all supported AI tools.
+
+### `backup_existing_configs`
+
+Creates timestamped backups of existing AI tool configuration files.
+
+**Parameters:**
+- `targetDirectory` (optional): Target directory path
+- `enabledTools`: Array of AI tools to backup
+
+### `create_symlinks`
+
+Creates symbolic links for AI tool compatibility.
+
+**Parameters:**
+- `targetDirectory` (optional): Target directory path  
+- `enabledTools`: Array of AI tools to create symlinks for
+
+### `verify_setup`
+
+Validates AGENT.md setup and symlink integrity.
+
+**Parameters:**
+- `targetDirectory` (optional): Target directory path
+
+### `generate_integration_prompt`
+
+Generates LLM prompts for intelligently merging existing configurations.
+
+**Parameters:**
+- `targetDirectory` (optional): Target directory path
+- `enabledTools`: Array of AI tools to analyze
+
+## 🏗️ Project Structure
+
+```text
+agent-md-mcp-server/
+├── README.md              # This documentation
+├── index.ts               # TypeScript source (main server)
+├── index.js               # Compiled JavaScript entry point
+├── test.js                # Comprehensive test suite
+├── demo.js                # Interactive demonstration
+├── package.json           # Node.js package configuration
+├── tsconfig.json          # TypeScript configuration
+└── docs/                  # Additional documentation
+    └── mcp-examples.md    # Usage examples
+```
 
 ## 🎨 Philosophy
 
 ### Single Source of Truth
 
-Rather than maintaining separate configuration files for each AI tool, we advocate for a unified approach where all AI assistants read from the same configuration source.
+Instead of maintaining separate configuration files for each AI tool, this server enables a unified approach where all AI assistants read from a single `AGENT.md` file.
 
 ### Standards-Based
 
-We follow emerging industry standards like the [AGENT.md specification](https://ampcode.com/AGENT.md) to ensure future compatibility and interoperability.
+Implements the official [AGENT.md specification](https://ampcode.com/AGENT.md) to ensure future compatibility and interoperability across the AI tooling ecosystem.
 
-### Safe Migration
+### Safe Operations
 
-Our tools prioritize safety by backing up existing configurations before making changes, and providing intelligent merging capabilities.
+Prioritizes safety with automatic backups, validation checks, and rollback capabilities before making any configuration changes.
 
 ### Developer Experience
 
-We focus on reducing friction and maintenance overhead while improving the consistency and quality of AI-assisted development.
+Focuses on reducing friction and maintenance overhead while improving consistency and quality of AI-assisted development workflows.
 
-## 🔮 Future Tools
+## 🧪 Development
 
-This repository is designed to house additional AI development tools:
+### Run Tests
 
-### Workflow Automation
+```bash
+npm test
+```
 
-- **CI/CD integration tools**
-- **Automated code review helpers**
-- **Development pipeline optimizers**
+### Lint Code
 
-### Configuration Management
+```bash
+npm run lint
+```
 
-- **Configuration validation tools**
-- **Cross-tool compatibility helpers**
-- **Environment standardization utilities**
+### Format Code
 
-### Additional Categories
+```bash
+npm run format
+```
 
-- **AI prompt management utilities**
-- **Performance monitoring tools**
-- **Integration testing frameworks**
+### Type Check
+
+```bash
+npm run build
+```
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please:
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/your-feature`
+3. Make your changes with tests
+4. Run the test suite: `npm test`
+5. Commit your changes: `git commit -am 'Add some feature'`
+6. Push to the branch: `git push origin feature/your-feature`
+7. Submit a pull request
 
-1. Follow the existing code structure and documentation style
-2. Add comprehensive documentation for new tools
-3. Include usage examples and test cases
-4. Ensure tools are safe and non-destructive
-5. Follow conventional commit message format
-6. Place tools in appropriate subdirectories
+## 📄 License
 
-## 🆘 Support
-
-- **Issues**: Report bugs or request features via GitHub issues
-- **Documentation**: Check tool-specific README files in respective directories
-- **Examples**: See the `examples/` directory for usage patterns
+MIT License - see [LICENSE](LICENSE) file for details.
 
 ---
 
-_Built to standardize and streamline AI-assisted development workflows._
+_Streamlining AI-assisted development through standardized configuration protocols._

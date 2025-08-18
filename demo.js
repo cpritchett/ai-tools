@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 // Quick demo of the MCP server functionality
-import { AIToolsMCPServer } from '../../dist/index.js';
+import { AIToolsMCPServer } from './dist/index.js';
 import process from 'process';
 
 async function demo() {

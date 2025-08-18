@@ -1,9 +1,10 @@
 {
-  "name": "ai-tools",
+  "name": "agent-md-mcp-server",
   "version": "1.0.0",
-  "description": "Scripts and utilities for standardizing AI coding assistant configurations",
-  "private": true,
+  "description": "Model Context Protocol (MCP) server for AGENT.md specification setup and AI tool configuration management",
+  "private": false,
   "type": "module",
+  "main": "index.js",
   "scripts": {
     "trunk": "trunk",
     "lint": "trunk check",
@@ -11,19 +12,22 @@
     "check": "trunk check",
     "format": "trunk fmt",
     "build": "tsc",
-    "mcp": "node tools/mcp-server/index.js",
-    "test": "node tools/mcp-server/test.js",
-    "demo": "node tools/mcp-server/demo.js"
+    "start": "node index.js",
+    "mcp": "node index.js",
+    "test": "node test.js",
+    "demo": "node demo.js"
   },
   "keywords": [
-    "ai",
-    "coding-assistant",
+    "mcp",
+    "model-context-protocol",
     "agent-md",
-    "development-tools",
-    "claude-code",
+    "ai-tools",
+    "claude",
     "copilot",
     "cursor",
-    "windsurf"
+    "windsurf",
+    "coding-assistant",
+    "development-tools"
   ],
   "repository": {
     "type": "git",
@@ -42,6 +46,6 @@
     "typescript": "^5.7.2"
   },
   "bin": {
-    "ai-tools-mcp": "./tools/mcp-server/index.js"
+    "agent-md-mcp": "./index.js"
   }
 }

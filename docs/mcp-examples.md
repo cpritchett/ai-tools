@@ -1,6 +1,6 @@
 # MCP Server Usage Examples
 
-This document provides examples of how to use the AI Tools MCP Server with different MCP clients.
+This document provides examples of how to use the AGENT.md MCP Server with different MCP clients.
 
 ## Claude Desktop Integration
 
@@ -11,9 +11,9 @@ To use the MCP server with Claude Desktop, add it to your Claude configuration:
 // ~/Library/Application Support/Claude/claude_desktop_config.json
 {
   "mcpServers": {
-    "ai-tools": {
+    "agent-md": {
       "command": "node",
-      "args": ["/path/to/ai-tools/tools/mcp-server/index.js"],
+      "args": ["/path/to/agent-md-mcp-server/index.js"],
       "env": {}
     }
   }
@@ -25,9 +25,9 @@ To use the MCP server with Claude Desktop, add it to your Claude configuration:
 // %APPDATA%\Claude\claude_desktop_config.json
 {
   "mcpServers": {
-    "ai-tools": {
+    "agent-md": {
       "command": "node",
-      "args": ["C:\\path\\to\\ai-tools\\tools\\mcp-server\\index.js"],
+      "args": ["C:\\path\\to\\agent-md-mcp-server\\index.js"],
       "env": {}
     }
   }

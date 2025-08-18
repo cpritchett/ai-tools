@@ -10,13 +10,16 @@
     "forceConsistentCasingInFileNames": true,
     "declaration": true,
     "outDir": "./dist",
-    "rootDir": "./tools/mcp-server"
+    "rootDir": "./"
   },
   "include": [
-    "tools/mcp-server/**/*"
+    "index.ts",
+    "*.ts"
   ],
   "exclude": [
     "node_modules",
-    "dist"
+    "dist",
+    "test.js",
+    "demo.js"
   ]
 }
