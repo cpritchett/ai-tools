@@ -1,4 +1,4 @@
-# AGENT.md MCP Server
+# agents-md MCP Server
 
 A Model Context Protocol (MCP) server that implements the [AGENT.md specification](https://ampcode.com/AGENT.md) for standardizing AI coding assistant configurations across development projects.
 
@@ -58,9 +58,9 @@ Add to your Claude Desktop configuration:
 ```json
 {
   "mcpServers": {
-    "agent-md": {
+    "agents-md": {
       "command": "node",
-      "args": ["/path/to/agent-md-mcp-server/index.js"]
+      "args": ["/path/to/agents-md/index.js"]
     }
   }
 }
@@ -147,7 +147,7 @@ Generates LLM prompts for intelligently merging existing configurations.
 ## 🏗️ Project Structure
 
 ```text
-agent-md-mcp-server/
+agents-md/
 ├── README.md              # This documentation
 ├── index.ts               # TypeScript source (main server)
 ├── index.js               # Compiled JavaScript entry point

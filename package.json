@@ -1,5 +1,5 @@
 {
-  "name": "agent-md-mcp-server",
+  "name": "agents-md",
   "version": "1.0.0",
   "description": "Model Context Protocol (MCP) server for AGENT.md specification setup and AI tool configuration management",
   "private": false,
@@ -31,7 +31,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cpritchett/ai-tools.git"
+    "url": "git+https://github.com/cpritchett/agents-md.git"
   },
   "license": "MIT",
   "engines": {
@@ -46,6 +46,6 @@
     "typescript": "^5.7.2"
   },
   "bin": {
-    "agent-md-mcp": "./index.js"
+    "agents-md": "./index.js"
   }
 }
