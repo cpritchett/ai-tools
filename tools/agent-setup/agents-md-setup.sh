@@ -2,9 +2,9 @@
 
 set -euo pipefail
 
-# setup-agent-md.sh
+# agents-md-setup.sh
 # Implements AGENT.md specification in any repository
-# Usage: ./setup-agent-md.sh [options] [repository-path]
+# Usage: ./agents-md-setup.sh [options] [repository-path]
 #   --claude         Enable Claude Code compatibility (CLAUDE.md)
 #   --copilot        Enable GitHub Copilot compatibility (.github/copilot-instructions.md)
 #   --kiro           Enable Kiro AI compatibility (.kiro/steering/project.md)

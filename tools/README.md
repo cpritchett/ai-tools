@@ -10,7 +10,7 @@ Tools for setting up and managing AI agent configurations following industry sta
 
 **Current Tools:**
 
-- `setup-agent-md.sh` - AGENT.md specification implementation with multi-tool support
+- `agents-md-setup.sh` - AGENT.md specification implementation with multi-tool support
 
 ### workflow-automation/
 

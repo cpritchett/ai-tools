@@ -1,4 +1,4 @@
-# setup-agent-md.sh
+# agents-md-setup.sh
 
 A script to implement the [AGENT.md specification](https://ampcode.com/AGENT.md) in any repository, creating a universal configuration file that all AI coding assistants can read.
 
@@ -22,7 +22,7 @@ This script consolidates scattered AI tool-specific configuration files into a s
 ### Interactive Mode (Default)
 
 ```bash
-./setup-agent-md.sh
+./agents-md-setup.sh
 ```
 
 Shows a menu to select which AI tools to configure.
@@ -31,16 +31,16 @@ Shows a menu to select which AI tools to configure.
 
 ```bash
 # Enable specific tools
-./setup-agent-md.sh --claude --copilot --cursor
+./agents-md-setup.sh --claude --copilot --cursor
 
 # Enable all supported tools
-./setup-agent-md.sh --all
+./agents-md-setup.sh --all
 
 # Target specific directory
-./setup-agent-md.sh --claude --copilot /path/to/repository
+./agents-md-setup.sh --claude --copilot /path/to/repository
 
 # Force interactive mode
-./setup-agent-md.sh --interactive
+./agents-md-setup.sh --interactive
 ```
 
 ### Available Flags
@@ -85,7 +85,7 @@ Shows a menu to select which AI tools to configure.
 ### First-time Setup
 
 ```bash
-./setup-agent-md.sh --all
+./agents-md-setup.sh --all
 # Creates AGENT.md template and symlinks
 # Edit AGENT.md for your project
 # Commit changes
@@ -94,7 +94,7 @@ Shows a menu to select which AI tools to configure.
 ### Migrating Existing Configs
 
 ```bash
-./setup-agent-md.sh --claude --copilot
+./agents-md-setup.sh --claude --copilot
 # 📦 Backing up existing CLAUDE.md
 # 📦 Backing up existing .github/copilot-instructions.md
 # 🤖 Generating LLM integration prompt...
@@ -164,7 +164,7 @@ The generated AGENT.md follows the official specification with these sections:
 Ensure the script is executable:
 
 ```bash
-chmod +x setup-agent-md.sh
+chmod +x agents-md-setup.sh
 ```
 
 ### Not a Git Repository
